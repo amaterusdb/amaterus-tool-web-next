@@ -10,7 +10,7 @@ import {
   Grid,
   Stack,
 } from '@mui/material'
-import { formatISO } from 'date-fns'
+import { formatISO, parseISO, add as dateAdd } from 'date-fns'
 import Head from 'next/head'
 import NextLink from 'next/link'
 import { useMemo } from 'react'
@@ -24,10 +24,32 @@ interface StartTimePlusElapsedTimePageFormValues {
   outputTimeLines: string
 }
 
+function addElapsedTimeStringToDuration(date: Date, elapsedTimeString: string): Date {
+  const hhmmssMatch = elapsedTimeString.match(/^(\d{2}):(\d{2}):(\d{2})$/)
+  if (hhmmssMatch != null) {
+    const hours = Number.parseInt(hhmmssMatch[1])
+    const minutes = Number.parseInt(hhmmssMatch[2])
+    const seconds = Number.parseInt(hhmmssMatch[3])
+
+    return dateAdd(date, {
+      hours,
+      minutes,
+      seconds,
+    })
+  }
+
+  throw Error(`Invalid elapsed time string format. Use HH:mm:ss. Given: ${elapsedTimeString}`)
+}
+
 export default function StartTimePlusElapsedTimePage() {
   const currentDateString = formatISO(new Date())
   const availableTimezones = useMemo(() => Intl.supportedValuesOf('timeZone'), [])
   const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+  const elapsedTimePlaceholders = ['00:12:34', '01:23:45']
+  const outputTimePlaceholders = elapsedTimePlaceholders.map((elapsedTimePlaceholder) =>
+    formatISO(addElapsedTimeStringToDuration(parseISO(currentDateString), elapsedTimePlaceholder)),
+  )
 
   const { control, handleSubmit, setValue } = useForm<StartTimePlusElapsedTimePageFormValues>({
     defaultValues: {
@@ -135,7 +157,7 @@ export default function StartTimePlusElapsedTimePage() {
                         multiline
                         minRows={3}
                         label='経過時間'
-                        placeholder={`00:12:34\n01:23:45`}
+                        placeholder={elapsedTimePlaceholders.join('\n')}
                         helperText='HH:mm:ss 形式の経過時間（複数行）'
                         {...field}
                       />
@@ -151,7 +173,7 @@ export default function StartTimePlusElapsedTimePage() {
                         multiline
                         minRows={3}
                         label='出力時間'
-                        placeholder={`${currentDateString}\n${currentDateString}`}
+                        placeholder={outputTimePlaceholders.join('\n')}
                         InputProps={{
                           readOnly: true,
                         }}
