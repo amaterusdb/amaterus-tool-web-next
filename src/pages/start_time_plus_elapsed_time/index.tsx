@@ -203,11 +203,14 @@ export default function StartTimePlusElapsedTimePage() {
               </Stack>
             </Box>
             <Box sx={{ mt: 4 }}>
-              <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: 4, md: 2 }}>
+              <Stack
+                direction={{ xs: 'column', sm: 'column', md: 'row' }}
+                spacing={{ xs: 4, sm: 4, md: 2 }}
+              >
                 <Stack
-                  direction={{ xs: 'column', sm: 'row' }}
-                  spacing={{ xs: 2, sm: 2 }}
-                  alignItems={{ xs: 'stretch', sm: 'center' }}
+                  direction={{ xs: 'column', sm: 'row', md: 'column' }}
+                  spacing={{ xs: 2, sm: 2, md: 2 }}
+                  alignItems={{ xs: 'stretch', sm: 'center', md: 'stretch' }}
                 >
                   <FormControl sx={{ width: '40ch' }}>
                     <Controller
@@ -238,9 +241,9 @@ export default function StartTimePlusElapsedTimePage() {
                   </Button>
                 </Stack>
                 <Stack
-                  direction={{ xs: 'column', sm: 'row' }}
-                  spacing={{ xs: 2, sm: 2 }}
-                  alignItems={{ xs: 'stretch', sm: 'center' }}
+                  direction={{ xs: 'column', sm: 'row', md: 'column' }}
+                  spacing={{ xs: 2, sm: 2, md: 2 }}
+                  alignItems={{ xs: 'stretch', sm: 'center', md: 'stretch' }}
                 >
                   <FormControl sx={{ width: '40ch' }}>
                     <Controller
@@ -252,6 +255,7 @@ export default function StartTimePlusElapsedTimePage() {
                           minRows={3}
                           label='出力時間'
                           placeholder={resultTimePlaceholders.join('\n')}
+                          helperText='ISO 8601 (RFC 3339) 拡張形式のタイムゾーン付き日時'
                           InputProps={{
                             readOnly: true,
                           }}
