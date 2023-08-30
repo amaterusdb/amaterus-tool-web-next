@@ -69,6 +69,7 @@ export default function StartTimePlusElapsedTimePage() {
     const startTime = parseISO(startTimeValue)
     const elapsedTimeLines = elapsedTimeLinesValue
       .split('\n')
+      .map((elapsedTimeLine) => elapsedTimeLine.trim())
       .filter((elapsedTimeLine) => elapsedTimeLine.length > 0)
 
     const resultTimes = []
