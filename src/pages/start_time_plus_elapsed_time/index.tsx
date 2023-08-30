@@ -133,7 +133,7 @@ export default function StartTimePlusElapsedTimePage() {
         <Typography variant='h4' component='h2'>
           開始日時＋経過時間
         </Typography>
-        <Box sx={{ mt: 3 }}>
+        <Box sx={{ mt: 5 }}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box sx={{ mt: 3 }}>
               <Stack
