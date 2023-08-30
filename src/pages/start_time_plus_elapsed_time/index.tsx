@@ -13,7 +13,7 @@ import {
 import { formatISO, parseISO, add as dateAdd } from 'date-fns'
 import Head from 'next/head'
 import NextLink from 'next/link'
-import { useMemo } from 'react'
+import { use, useEffect, useMemo } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import DrawerAppBar from '@/components/drawer_app_bar'
 
@@ -21,7 +21,7 @@ interface StartTimePlusElapsedTimePageFormValues {
   startTime: string
   outputTimezone: string
   elapsedTimeLines: string
-  outputTimeLines: string
+  resultTimeLines: string
 }
 
 function addElapsedTimeStringToDuration(date: Date, elapsedTimeString: string): Date {
@@ -47,18 +47,43 @@ export default function StartTimePlusElapsedTimePage() {
   const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
   const elapsedTimePlaceholders = ['00:12:34', '01:23:45']
-  const outputTimePlaceholders = elapsedTimePlaceholders.map((elapsedTimePlaceholder) =>
+  const resultTimePlaceholders = elapsedTimePlaceholders.map((elapsedTimePlaceholder) =>
     formatISO(addElapsedTimeStringToDuration(parseISO(currentDateString), elapsedTimePlaceholder)),
   )
 
-  const { control, handleSubmit, setValue } = useForm<StartTimePlusElapsedTimePageFormValues>({
-    defaultValues: {
-      startTime: currentDateString,
-      outputTimezone: currentTimezone,
-      elapsedTimeLines: '',
-      outputTimeLines: '',
-    },
-  })
+  const { control, handleSubmit, setValue, watch } =
+    useForm<StartTimePlusElapsedTimePageFormValues>({
+      defaultValues: {
+        startTime: currentDateString,
+        outputTimezone: currentTimezone,
+        elapsedTimeLines: '',
+        resultTimeLines: '',
+      },
+    })
+
+  const startTimeValue = watch('startTime')
+  const timezoneValue = watch('outputTimezone')
+  const elapsedTimeLinesValue = watch('elapsedTimeLines')
+
+  useEffect(() => {
+    const startTime = parseISO(startTimeValue)
+    const elapsedTimeLines = elapsedTimeLinesValue
+      .split('\n')
+      .filter((elapsedTimeLine) => elapsedTimeLine.length > 0)
+
+    const resultTimes = []
+    for (const elapsedTimeLine of elapsedTimeLines) {
+      let resultTimeLine = ''
+
+      try {
+        resultTimeLine = formatISO(addElapsedTimeStringToDuration(startTime, elapsedTimeLine))
+      } catch {}
+
+      resultTimes.push(resultTimeLine)
+    }
+
+    setValue('resultTimeLines', resultTimes.join('\n'))
+  }, [startTimeValue, timezoneValue, elapsedTimeLinesValue])
 
   const onSubmit = (formValues: StartTimePlusElapsedTimePageFormValues): void => {}
 
@@ -166,14 +191,14 @@ export default function StartTimePlusElapsedTimePage() {
                 </FormControl>
                 <FormControl sx={{ width: '40ch' }}>
                   <Controller
-                    name='outputTimeLines'
+                    name='resultTimeLines'
                     control={control}
                     render={({ field }) => (
                       <TextField
                         multiline
                         minRows={3}
                         label='出力時間'
-                        placeholder={outputTimePlaceholders.join('\n')}
+                        placeholder={resultTimePlaceholders.join('\n')}
                         InputProps={{
                           readOnly: true,
                         }}
