@@ -7,13 +7,12 @@ import {
   Button,
   FormControl,
   MenuItem,
-  Grid,
   Stack,
 } from '@mui/material'
 import { formatISO, parseISO, add as dateAdd } from 'date-fns'
 import Head from 'next/head'
 import NextLink from 'next/link'
-import { use, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import DrawerAppBar from '@/components/drawer_app_bar'
 
@@ -225,6 +224,14 @@ export default function StartTimePlusElapsedTimePage() {
                           placeholder={resultTimePlaceholders.join('\n')}
                           InputProps={{
                             readOnly: true,
+                          }}
+                          onClick={(e) => {
+                            if (
+                              e.target instanceof HTMLInputElement ||
+                              e.target instanceof HTMLTextAreaElement
+                            ) {
+                              e.target.select()
+                            }
                           }}
                           {...field}
                         />
