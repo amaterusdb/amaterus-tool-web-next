@@ -10,6 +10,7 @@ import {
   Stack,
 } from '@mui/material'
 import { formatISO, parseISO, add as dateAdd } from 'date-fns'
+import { utcToZonedTime, format as formatTZ } from 'date-fns-tz'
 import Head from 'next/head'
 import NextLink from 'next/link'
 import { useEffect, useMemo } from 'react'
@@ -85,7 +86,11 @@ export default function StartTimePlusElapsedTimePage() {
       let resultTimeLine = ''
 
       try {
-        resultTimeLine = formatISO(addElapsedTimeStringToDuration(startTime, elapsedTimeLine))
+        const utcResultTime = addElapsedTimeStringToDuration(startTime, elapsedTimeLine)
+        const zonedResultTime = utcToZonedTime(utcResultTime, timezoneValue)
+        resultTimeLine = formatTZ(zonedResultTime, "yyyy-MM-dd'T'HH:mm:ssxxx", {
+          timeZone: timezoneValue,
+        })
       } catch {}
 
       resultTimes.push(resultTimeLine)
