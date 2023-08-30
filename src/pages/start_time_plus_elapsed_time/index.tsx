@@ -119,7 +119,7 @@ export default function StartTimePlusElapsedTimePage() {
     }
 
     setValue('resultTimeLines', resultTimes.join('\n'))
-  }, [startTimeValue, timezoneValue, elapsedTimeLinesValue])
+  }, [startTimeValue, timezoneValue, elapsedTimeLinesValue, setValue])
 
   const onSubmit = (formValues: StartTimePlusElapsedTimePageFormValues): void => {}
 
