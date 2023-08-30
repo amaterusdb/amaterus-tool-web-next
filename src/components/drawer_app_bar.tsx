@@ -47,7 +47,7 @@ export default function DrawerAppBar() {
       <Typography variant='h6' sx={{ my: 2 }}>
         <NextLink href='/' passHref legacyBehavior>
           <MuiLink underline='none' color='inherit'>
-            Amaterus Admin
+            Amaterus Tool
           </MuiLink>
         </NextLink>
       </Typography>
@@ -91,7 +91,7 @@ export default function DrawerAppBar() {
           >
             <NextLink href='/' passHref legacyBehavior>
               <MuiLink underline='none' color='inherit'>
-                Amaterus Admin
+                Amaterus Tool
               </MuiLink>
             </NextLink>
           </Typography>
