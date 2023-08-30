@@ -168,7 +168,7 @@ export default function StartTimePlusElapsedTimePage() {
                 </Button>
               </Stack>
             </Box>
-            <Box sx={{ mt: 4 }}>
+            <Box sx={{ mt: 5 }}>
               <Stack
                 direction={{ xs: 'column', sm: 'row' }}
                 spacing={{ xs: 2, sm: 2 }}
