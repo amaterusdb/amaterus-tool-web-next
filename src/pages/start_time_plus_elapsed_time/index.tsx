@@ -173,7 +173,7 @@ export default function StartTimePlusElapsedTimePage() {
               </Stack>
             </Box>
             <Box sx={{ mt: 4 }}>
-              <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+              <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: 4, md: 2 }}>
                 <FormControl sx={{ width: '40ch' }}>
                   <Controller
                     name='elapsedTimeLines'
