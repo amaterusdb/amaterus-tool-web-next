@@ -1,0 +1,40 @@
+{
+  "name": "amaterus-tool-web-next",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next-sitemap",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "next lint --fix && prettier --write './**/*.{js,jsx,ts,tsx,json}'",
+    "generate": "graphql-codegen --require dotenv/config --config codegen.js dotenv_config_path=.env.local"
+  },
+  "dependencies": {
+    "@apollo/client": "3.7.17",
+    "@emotion/react": "11.11.1",
+    "@emotion/styled": "11.11.0",
+    "@fontsource/roboto": "5.0.7",
+    "@graphql-codegen/cli": "5.0.0",
+    "@graphql-codegen/introspection": "4.0.0",
+    "@graphql-codegen/typescript": "4.0.1",
+    "@graphql-codegen/typescript-operations": "4.0.1",
+    "@graphql-codegen/typescript-react-apollo": "3.3.7",
+    "@mui/icons-material": "5.14.3",
+    "@mui/material": "5.14.3",
+    "@types/node": "20.4.7",
+    "@types/react": "18.2.18",
+    "@types/react-dom": "18.2.7",
+    "date-fns": "2.30.0",
+    "eslint": "8.46.0",
+    "eslint-config-next": "13.4.12",
+    "eslint-config-prettier": "^9.0.0",
+    "graphql": "16.7.1",
+    "next": "13.4.12",
+    "next-sitemap": "^4.1.8",
+    "prettier": "^3.0.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "5.1.6"
+  }
+}
