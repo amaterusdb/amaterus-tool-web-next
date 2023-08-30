@@ -10,7 +10,7 @@ import {
   Stack,
 } from '@mui/material'
 import { parseISO, add as dateAdd } from 'date-fns'
-import { utcToZonedTime, format as formatTZ } from 'date-fns-tz'
+import { utcToZonedTime, format as formatTZ, getTimezoneOffset } from 'date-fns-tz'
 import Head from 'next/head'
 import NextLink from 'next/link'
 import { useEffect, useMemo } from 'react'
@@ -49,6 +49,14 @@ function formatTZISO(date: Date, timezone: string): string {
   })
 }
 
+function getTimezoneOffsetString(timezone: string): string {
+  const zonedCurrentTime = utcToZonedTime(new Date(), timezone)
+
+  return formatTZ(zonedCurrentTime, 'xxx', {
+    timeZone: timezone,
+  })
+}
+
 export default function StartTimePlusElapsedTimePage() {
   const availableTimezones = useMemo(() => {
     const timezones = Intl.supportedValuesOf('timeZone')
@@ -57,7 +65,7 @@ export default function StartTimePlusElapsedTimePage() {
       timezones.push('UTC')
     }
 
-    return timezones
+    return timezones.map((timezone) => `${timezone} (${getTimezoneOffsetString(timezone)})`)
   }, [])
   const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
   const currentDateString = formatTZISO(new Date(), currentTimezone)
