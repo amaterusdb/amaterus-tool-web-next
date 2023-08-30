@@ -32,7 +32,7 @@ export default function StartTimePlusElapsedTimePage() {
           <Controller
             name='startTime'
             control={control}
-            render={({ field }) => <TextField label='開始日時' variant='standard' />}
+            render={({ field }) => <TextField label='開始日時' variant='standard' {...field} />}
           />
         </form>
       </Box>
