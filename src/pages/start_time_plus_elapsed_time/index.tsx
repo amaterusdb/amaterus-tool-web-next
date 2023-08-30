@@ -69,7 +69,9 @@ export default function StartTimePlusElapsedTimePage() {
   }, [])
 
   const displayAvailableTimezones = useMemo(() => {
-    return availableTimezones.map((timezone) => `${timezone} (${getTimezoneOffsetString(timezone)})`)
+    return availableTimezones.map(
+      (timezone) => `${timezone} (${getTimezoneOffsetString(timezone)})`,
+    )
   }, [availableTimezones])
 
   const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -103,7 +105,6 @@ export default function StartTimePlusElapsedTimePage() {
     const elapsedTimeLines = elapsedTimeLinesValue
       .split('\n')
       .map((elapsedTimeLine) => elapsedTimeLine.trim())
-      .filter((elapsedTimeLine) => elapsedTimeLine.length > 0)
 
     const resultTimes = []
     for (const elapsedTimeLine of elapsedTimeLines) {
