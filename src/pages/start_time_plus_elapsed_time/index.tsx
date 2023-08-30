@@ -174,6 +174,11 @@ export default function StartTimePlusElapsedTimePage() {
             </Box>
             <Box sx={{ mt: 4 }}>
               <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: 4, md: 2 }}>
+                <Stack
+                  direction={{ xs: 'column', sm: 'row' }}
+                  spacing={{ xs: 2, sm: 2 }}
+                  alignItems={{ xs: 'stretch', sm: 'center' }}
+                >
                 <FormControl sx={{ width: '40ch' }}>
                   <Controller
                     name='elapsedTimeLines'
@@ -190,6 +195,18 @@ export default function StartTimePlusElapsedTimePage() {
                     )}
                   />
                 </FormControl>
+                  <Button
+                    onClick={async () => {
+                      const clipboardText = await navigator.clipboard.readText()
+
+                      setValue("elapsedTimeLines", clipboardText)
+                    }}
+                    variant='contained'
+                    sx={{ ml: 2, mt: 1 }}
+                  >
+                    クリップボードの内容を入力
+                  </Button>
+                </Stack>
                 <FormControl sx={{ width: '40ch' }}>
                   <Controller
                     name='resultTimeLines'
