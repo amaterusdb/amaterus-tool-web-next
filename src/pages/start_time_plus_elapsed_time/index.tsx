@@ -108,6 +108,24 @@ export default function StartTimePlusElapsedTimePage() {
                 現在のタイムゾーンを入力
               </Button>
             </Box>
+            <Box sx={{ mt: 3 }}>
+              <FormControl sx={{ width: '40ch' }}>
+                <Controller
+                  name='elapsedTimeLines'
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      multiline
+                      minRows={3}
+                      label='経過時間'
+                      placeholder={`00:12:34\n01:23:45`}
+                      helperText='HH:mm:ss 形式の経過時間（複数行）'
+                      {...field}
+                    />
+                  )}
+                />
+              </FormControl>
+            </Box>
           </form>
         </Box>
       </Box>
