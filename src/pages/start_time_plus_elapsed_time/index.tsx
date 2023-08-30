@@ -50,7 +50,7 @@ export default function StartTimePlusElapsedTimePage() {
         <Box sx={{ mt: 3 }}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box sx={{ mt: 3 }}>
-              <FormControl sx={{ width: '35ch' }}>
+              <FormControl sx={{ width: '40ch' }}>
                 <Controller
                   name='startTime'
                   control={control}
@@ -58,7 +58,7 @@ export default function StartTimePlusElapsedTimePage() {
                     <TextField
                       label='開始日時'
                       placeholder={currentDateString}
-                      helperText='ISO 8601 (RFC 3339)の完全な拡張形式の日時'
+                      helperText='ISO 8601 (RFC 3339) 拡張形式のタイムゾーン付き日時'
                       {...field}
                     />
                   )}
@@ -77,7 +77,7 @@ export default function StartTimePlusElapsedTimePage() {
               </Button>
             </Box>
             <Box sx={{ mt: 3 }}>
-              <FormControl sx={{ width: '35ch' }}>
+              <FormControl sx={{ width: '40ch' }}>
                 <Controller
                   name='outputTimezone'
                   control={control}
