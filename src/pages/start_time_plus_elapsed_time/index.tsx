@@ -9,7 +9,7 @@ import {
   MenuItem,
   Stack,
 } from '@mui/material'
-import { formatISO, parseISO, add as dateAdd } from 'date-fns'
+import { parseISO, add as dateAdd } from 'date-fns'
 import { utcToZonedTime, format as formatTZ } from 'date-fns-tz'
 import Head from 'next/head'
 import NextLink from 'next/link'
@@ -41,8 +41,15 @@ function addElapsedTimeStringToDuration(date: Date, elapsedTimeString: string): 
   throw Error(`Invalid elapsed time string format. Use HH:mm:ss. Given: ${elapsedTimeString}`)
 }
 
+function formatTZISO(date: Date, timezone: string): string {
+  const zonedResultTime = utcToZonedTime(date, timezone)
+
+  return formatTZ(zonedResultTime, "yyyy-MM-dd'T'HH:mm:ssxxx", {
+    timeZone: timezone,
+  })
+}
+
 export default function StartTimePlusElapsedTimePage() {
-  const currentDateString = formatISO(new Date())
   const availableTimezones = useMemo(() => {
     const timezones = Intl.supportedValuesOf('timeZone')
 
@@ -53,10 +60,14 @@ export default function StartTimePlusElapsedTimePage() {
     return timezones
   }, [])
   const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  const currentDateString = formatTZISO(new Date(), currentTimezone)
 
   const elapsedTimePlaceholders = ['00:12:34', '01:23:45']
   const resultTimePlaceholders = elapsedTimePlaceholders.map((elapsedTimePlaceholder) =>
-    formatISO(addElapsedTimeStringToDuration(parseISO(currentDateString), elapsedTimePlaceholder)),
+    formatTZISO(
+      addElapsedTimeStringToDuration(parseISO(currentDateString), elapsedTimePlaceholder),
+      currentTimezone,
+    ),
   )
 
   const { control, handleSubmit, setValue, watch } =
@@ -87,10 +98,7 @@ export default function StartTimePlusElapsedTimePage() {
 
       try {
         const utcResultTime = addElapsedTimeStringToDuration(startTime, elapsedTimeLine)
-        const zonedResultTime = utcToZonedTime(utcResultTime, timezoneValue)
-        resultTimeLine = formatTZ(zonedResultTime, "yyyy-MM-dd'T'HH:mm:ssxxx", {
-          timeZone: timezoneValue,
-        })
+        resultTimeLine = formatTZISO(utcResultTime, timezoneValue)
       } catch {}
 
       resultTimes.push(resultTimeLine)
@@ -136,7 +144,7 @@ export default function StartTimePlusElapsedTimePage() {
                 </FormControl>
                 <Button
                   onClick={() => {
-                    const currentDateString = formatISO(new Date())
+                    const currentDateString = formatTZISO(new Date(), timezoneValue)
 
                     setValue('startTime', currentDateString)
                   }}
