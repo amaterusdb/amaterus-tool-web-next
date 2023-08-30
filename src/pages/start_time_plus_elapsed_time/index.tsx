@@ -42,7 +42,15 @@ function addElapsedTimeStringToDuration(date: Date, elapsedTimeString: string): 
 
 export default function StartTimePlusElapsedTimePage() {
   const currentDateString = formatISO(new Date())
-  const availableTimezones = useMemo(() => Intl.supportedValuesOf('timeZone'), [])
+  const availableTimezones = useMemo(() => {
+    const timezones = Intl.supportedValuesOf('timeZone')
+
+    if (!timezones.includes('UTC')) {
+      timezones.push('UTC')
+    }
+
+    return timezones
+  }, [])
   const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
   const elapsedTimePlaceholders = ['00:12:34', '01:23:45']
@@ -169,6 +177,15 @@ export default function StartTimePlusElapsedTimePage() {
                   sx={{ ml: 2, mt: 1 }}
                 >
                   現在のタイムゾーンを入力
+                </Button>
+                <Button
+                  onClick={() => {
+                    setValue('outputTimezone', 'UTC')
+                  }}
+                  variant='contained'
+                  sx={{ ml: 2, mt: 1 }}
+                >
+                  UTCを入力
                 </Button>
               </Stack>
             </Box>
