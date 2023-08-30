@@ -65,8 +65,13 @@ export default function StartTimePlusElapsedTimePage() {
       timezones.push('UTC')
     }
 
-    return timezones.map((timezone) => `${timezone} (${getTimezoneOffsetString(timezone)})`)
+    return timezones
   }, [])
+
+  const displayAvailableTimezones = useMemo(() => {
+    return availableTimezones.map((timezone) => `${timezone} (${getTimezoneOffsetString(timezone)})`)
+  }, [availableTimezones])
+
   const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
   const currentDateString = formatTZISO(new Date(), currentTimezone)
 
@@ -181,9 +186,9 @@ export default function StartTimePlusElapsedTimePage() {
                         helperText='IANA タイムゾーン識別子'
                         {...field}
                       >
-                        {availableTimezones.map((timezone) => (
+                        {availableTimezones.map((timezone, index) => (
                           <MenuItem key={timezone} value={timezone}>
-                            {timezone}
+                            {displayAvailableTimezones[index]}
                           </MenuItem>
                         ))}
                       </TextField>
