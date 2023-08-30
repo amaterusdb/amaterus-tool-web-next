@@ -64,6 +64,7 @@ export default function StartTimePlusElapsedTimePage() {
   const startTimeValue = watch('startTime')
   const timezoneValue = watch('outputTimezone')
   const elapsedTimeLinesValue = watch('elapsedTimeLines')
+  const resultTimeLinesValue = watch('resultTimeLines')
 
   useEffect(() => {
     const startTime = parseISO(startTimeValue)
@@ -179,27 +180,27 @@ export default function StartTimePlusElapsedTimePage() {
                   spacing={{ xs: 2, sm: 2 }}
                   alignItems={{ xs: 'stretch', sm: 'center' }}
                 >
-                <FormControl sx={{ width: '40ch' }}>
-                  <Controller
-                    name='elapsedTimeLines'
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        multiline
-                        minRows={3}
-                        label='経過時間'
-                        placeholder={elapsedTimePlaceholders.join('\n')}
-                        helperText='HH:mm:ss 形式の経過時間（複数行）'
-                        {...field}
-                      />
-                    )}
-                  />
-                </FormControl>
+                  <FormControl sx={{ width: '40ch' }}>
+                    <Controller
+                      name='elapsedTimeLines'
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          multiline
+                          minRows={3}
+                          label='経過時間'
+                          placeholder={elapsedTimePlaceholders.join('\n')}
+                          helperText='HH:mm:ss 形式の経過時間（複数行）'
+                          {...field}
+                        />
+                      )}
+                    />
+                  </FormControl>
                   <Button
                     onClick={async () => {
                       const clipboardText = await navigator.clipboard.readText()
 
-                      setValue("elapsedTimeLines", clipboardText)
+                      setValue('elapsedTimeLines', clipboardText)
                     }}
                     variant='contained'
                     sx={{ ml: 2, mt: 1 }}
@@ -207,24 +208,39 @@ export default function StartTimePlusElapsedTimePage() {
                     クリップボードの内容を入力
                   </Button>
                 </Stack>
-                <FormControl sx={{ width: '40ch' }}>
-                  <Controller
-                    name='resultTimeLines'
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        multiline
-                        minRows={3}
-                        label='出力時間'
-                        placeholder={resultTimePlaceholders.join('\n')}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        {...field}
-                      />
-                    )}
-                  />
-                </FormControl>
+                <Stack
+                  direction={{ xs: 'column', sm: 'row' }}
+                  spacing={{ xs: 2, sm: 2 }}
+                  alignItems={{ xs: 'stretch', sm: 'center' }}
+                >
+                  <FormControl sx={{ width: '40ch' }}>
+                    <Controller
+                      name='resultTimeLines'
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          multiline
+                          minRows={3}
+                          label='出力時間'
+                          placeholder={resultTimePlaceholders.join('\n')}
+                          InputProps={{
+                            readOnly: true,
+                          }}
+                          {...field}
+                        />
+                      )}
+                    />
+                  </FormControl>
+                  <Button
+                    onClick={async () => {
+                      await navigator.clipboard.writeText(resultTimeLinesValue)
+                    }}
+                    variant='contained'
+                    sx={{ ml: 2, mt: 1 }}
+                  >
+                    内容をクリップボードに出力
+                  </Button>
+                </Stack>
               </Stack>
             </Box>
           </form>
